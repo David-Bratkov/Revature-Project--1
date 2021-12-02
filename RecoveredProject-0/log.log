@@ -1,0 +1,30 @@
+2021-12-01 09:28:12 WARN  AccountController:50 - java.lang.NullPointerException
+2021-12-01 09:56:37 WARN  AccountController:50 - java.lang.NullPointerException
+2021-12-01 09:57:03 WARN  AccountController:114 - java.lang.IllegalArgumentException: 'account_id' is not a valid path-param for '/clients/{client_id}/accounts'.
+2021-12-01 09:57:09 WARN  AccountController:50 - java.lang.NullPointerException
+2021-12-01 09:58:55 WARN  AccountController:50 - java.lang.NullPointerException
+2021-12-01 09:59:41 WARN  AccountController:183 - java.lang.NullPointerException
+2021-12-01 10:00:13 WARN  AccountController:50 - java.lang.NullPointerException
+2021-12-01 10:00:43 WARN  AccountController:50 - java.lang.NullPointerException
+2021-12-01 17:50:11 ERROR ClientsDAO:90 - org.postgresql.util.PSQLException: ERROR: column "client_id" is of type integer but expression is of type character varying
+  Hint: You will need to rewrite or cast the expression.
+  Position: 38
+2021-12-01 17:52:17 ERROR ClientsDAO:70 - org.postgresql.util.PSQLException: ResultSet not positioned properly, perhaps you need to call next.
+2021-12-01 18:00:11 ERROR ClientsDAO:72 - org.postgresql.util.PSQLException: ResultSet not positioned properly, perhaps you need to call next.
+2021-12-01 18:02:53 ERROR AccountsDAO:157 - org.postgresql.util.PSQLException: ERROR: column "id" does not exist
+  Position: 27
+2021-12-01 18:13:58 ERROR AccountsDAO:157 - org.postgresql.util.PSQLException: ERROR: column "id" does not exist
+  Position: 27
+2021-12-01 18:15:09 ERROR AccountsDAO:157 - org.postgresql.util.PSQLException: ERROR: column "id" does not exist
+  Position: 27
+2021-12-01 18:18:19 WARN  ClientController:210 - java.lang.NullPointerException
+2021-12-01 18:18:19 WARN  ClientController:224 - java.lang.NullPointerException
+2021-12-01 18:19:42 WARN  ClientController:210 - java.lang.NullPointerException
+2021-12-01 18:19:42 WARN  ClientController:224 - java.lang.NullPointerException
+2021-12-01 18:23:01 WARN  ClientController:225 - java.lang.NullPointerException
+2021-12-01 18:24:07 WARN  ClientController:225 - java.lang.NullPointerException
+2021-12-01 18:26:56 WARN  ClientController:225 - java.lang.NullPointerException n
+2021-12-01 18:29:57 WARN  ClientController:225 - java.lang.NullPointerException
+2021-12-01 18:33:49 WARN  AccountController:225 - java.lang.NullPointerException
+2021-12-01 18:33:59 WARN  AccountController:211 - java.lang.NullPointerException
+2021-12-01 18:34:43 WARN  AccountController:266 - java.lang.NullPointerException
