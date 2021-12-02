@@ -1,0 +1,39 @@
+body {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+h1 {
+    margin-left: 80px;
+}
+
+.login-box {
+    display: flex;
+    justify-content: space-evenly;
+    width: 500px;
+    background-color: rgb(128, 136, 136);
+    padding: 20px;
+    flex-direction: column;
+    margin-top: 100px;
+    border-radius: 8%;
+    box-shadow: 5px 5px 9px rgb(117, 116, 116);
+}
+
+.login-box input {
+    margin: 5px;
+}
+
+.login-box h6 {
+    font-weight: bold;
+}
+
+.login-box button {
+    width: 100px;
+    border-radius: 12%;
+    cursor: pointer;
+    background-color: rgb(65, 65, 65);
+    border: none;
+    box-shadow: 5px 5px 9px rgb(37, 37, 37);
+}
+
+

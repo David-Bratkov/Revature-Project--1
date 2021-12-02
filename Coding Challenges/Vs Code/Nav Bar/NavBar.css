@@ -1,0 +1,41 @@
+body {
+    margin: 0px;
+}
+
+.NavBar {
+    display: flex;
+    background-color: rgb(66, 66, 66);
+    justify-content: left;
+}
+
+.NavBar div {
+    cursor: pointer;
+    width: 100px;
+    display: flex;
+    justify-content: space-around;
+    color: white;
+    font-weight: lighter;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.NavBar div:hover {
+    background-color: rgb(45, 105, 235);
+}
+
+.Login2 {
+    background-color: rgb(45, 105, 235);
+}
+
+.Landing2 {
+    background-color: rgb(45, 105, 235);
+}
+
+.Register2 {
+    background-color: rgb(45, 105, 235);
+}
+
+.Landing:active {
+    /*code for redirecting to link*/
+    background-color: aqua;
+    transition: .5s;
+}

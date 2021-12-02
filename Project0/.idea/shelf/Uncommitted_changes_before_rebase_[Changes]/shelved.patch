@@ -1,0 +1,2261 @@
+Index: target/classes/log4j.properties
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>ISO-8859-1
+===================================================================
+diff --git a/target/classes/log4j.properties b/target/classes/log4j.properties
+new file mode 100644
+--- /dev/null	(date 1638337429490)
++++ b/target/classes/log4j.properties	(date 1638337429490)
+@@ -0,0 +1,16 @@
++log4j.rootLogger=DEBUG, file
++
++# Redirect log messages to console
++#log4j.appender.stdout=org.apache.log4j.ConsoleAppender
++#log4j.appender.stdout.Target=System.out
++#log4j.appender.stdout.layout=org.apache.log4j.PatternLayout
++#log4j.appender.stdout.layout.ConversionPattern=%d{yyyy-MM-dd HH:mm:ss} %-5p %c{1}:%L - %m%n
++
++# Redirect log messages to a log file, support file rolling.
++log4j.appender.file=org.apache.log4j.RollingFileAppender
++#Update your file location here
++log4j.appender.file.File=./log.log
++log4j.appender.file.MaxFileSize=5MB
++log4j.appender.file.MaxBackupIndex=10
++log4j.appender.file.layout=org.apache.log4j.PatternLayout
++log4j.appender.file.layout.ConversionPattern=%d{yyyy-MM-dd HH:mm:ss} %-5p %c{1}:%L - %m%n
+\ No newline at end of file
+Index: src/test/java/dao/AccountsDAOTest.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/test/java/dao/AccountsDAOTest.java b/src/test/java/dao/AccountsDAOTest.java
+new file mode 100644
+--- /dev/null	(date 1638378218021)
++++ b/src/test/java/dao/AccountsDAOTest.java	(date 1638378218021)
+@@ -0,0 +1,46 @@
++package dao;
++
++import org.junit.jupiter.api.AfterEach;
++import org.junit.jupiter.api.BeforeEach;
++import org.junit.jupiter.api.Test;
++
++import static org.junit.jupiter.api.Assertions.*;
++
++class AccountsDAOTest {
++
++
++    // Not setup at all
++
++
++    @BeforeEach
++    void setUp() {
++    }
++
++    @AfterEach
++    void tearDown() {
++    }
++
++    @Test
++    void getAllAccounts() {
++    }
++
++    @Test
++    void getOneAccount() {
++    }
++
++    @Test
++    void createAccount() {
++    }
++
++    @Test
++    void updateAccount() {
++    }
++
++    @Test
++    void deleteAccount() {
++    }
++
++    @Test
++    void getSpecificAccounts() {
++    }
++}
+\ No newline at end of file
+Index: src/main/java/util/H2UtilClient.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/util/H2UtilClient.java b/src/main/java/util/H2UtilClient.java
+new file mode 100644
+--- /dev/null	(date 1638377859304)
++++ b/src/main/java/util/H2UtilClient.java	(date 1638377859304)
+@@ -0,0 +1,47 @@
++package util;
++
++import java.sql.Connection;
++import java.sql.DriverManager;
++import java.sql.PreparedStatement;
++import java.sql.SQLException;
++
++public class H2UtilClient {
++    public static String url = "jdbc:h2:./h2/db";
++    public static String username = "sa";
++    public static String password = "sa";
++
++    public static void createTable(){
++        try {
++            Connection conn = DriverManager.getConnection(url, username, password);
++
++            String sql = "CREATE TABLE client(\n" +
++                    "\tid serial PRIMARY KEY,\n" +
++                    "\tfirst_name varchar(100) NOT NULL,\n" +
++                    "\tlast_name varchar(100) NOT NULL\n" +
++                    ");";
++
++            PreparedStatement ps = conn.prepareStatement(sql);
++
++            ps.executeUpdate();
++            conn.close();
++        } catch (SQLException e){
++            e.printStackTrace();
++        }
++    }
++
++    public static void dropTable(){
++        try {
++            Connection conn = DriverManager.getConnection(url, username, password);
++
++            String sql = "DROP TABLE client;";
++
++            PreparedStatement ps = conn.prepareStatement(sql);
++
++            ps.executeUpdate();
++            conn.close();
++        } catch (SQLException e){
++            e.printStackTrace();
++        }
++    }
++
++}
+Index: ../Project-1-Javalin/src/main/java/Main.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>import io.javalin.Javalin;\r\nimport io.javalin.http.staticfiles.Location;\r\n\r\npublic class Main {\r\n    public static void main(String[] args) {\r\n        Javalin app = Javalin.create(config -> {\r\n            config.addStaticFiles(\"/\", Location.CLASSPATH);\r\n        }).start(9000);\r\n\r\n        app.post(\"/form-add\", context -> {\r\n\r\n            Double num1 = Double.parseDouble(context.formParam(\"add1\"));\r\n            Double num2 = Double.parseDouble(context.formParam(\"add2\"));\r\n\r\n            context.result(\"\" + (num1 + num2));\r\n\r\n        });\r\n\r\n        app.post(\"/form-sub\", context -> {\r\n\r\n            Double num1 = Double.parseDouble(context.formParam(\"sub1\"));\r\n            Double num2 = Double.parseDouble(context.formParam(\"sub2\"));\r\n\r\n            context.result(\"\" + (num1 - num2));\r\n\r\n        });\r\n\r\n        app.post(\"/form-mult\", context -> {\r\n\r\n            Double num1 = Double.parseDouble(context.formParam(\"mult1\"));\r\n            Double num2 = Double.parseDouble(context.formParam(\"mult2\"));\r\n\r\n            context.result(\"\" + (num1 * num2));\r\n\r\n        });\r\n\r\n        app.post(\"/form-div\", context -> {\r\n\r\n            Double num1 = Double.parseDouble(context.formParam(\"div1\"));\r\n            Double num2 = Double.parseDouble(context.formParam(\"div2\"));\r\n\r\n            context.result(\"\" + (num1 / num2));\r\n\r\n        });\r\n\r\n\r\n\r\n\r\n    }\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/../Project-1-Javalin/src/main/java/Main.java b/../Project-1-Javalin/src/main/java/Main.java
+--- a/../Project-1-Javalin/src/main/java/Main.java	(revision 75c4179d48b4b1b118d0d639ce548857b805cd02)
++++ b/../Project-1-Javalin/src/main/java/Main.java	(date 1636952346350)
+@@ -7,6 +7,44 @@
+             config.addStaticFiles("/", Location.CLASSPATH);
+         }).start(9000);
+ 
++        /*
++
++
++
++
++int i = 0;
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
+         app.post("/form-add", context -> {
+ 
+             Double num1 = Double.parseDouble(context.formParam("add1"));
+@@ -43,7 +81,7 @@
+ 
+         });
+ 
+-
++*/
+ 
+ 
+     }
+Index: pom.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/pom.xml b/pom.xml
+new file mode 100644
+--- /dev/null	(date 1638336932565)
++++ b/pom.xml	(date 1638336932565)
+@@ -0,0 +1,64 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<project xmlns="http://maven.apache.org/POM/4.0.0"
++         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
++         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
++    <modelVersion>4.0.0</modelVersion>
++
++    <groupId>org.example</groupId>
++    <artifactId>Project0</artifactId>
++    <version>1.0-SNAPSHOT</version>
++
++    <properties>
++        <maven.compiler.source>8</maven.compiler.source>
++        <maven.compiler.target>8</maven.compiler.target>
++    </properties>
++
++    <dependencies>
++        <dependency>
++            <groupId>io.javalin</groupId>
++            <artifactId>javalin</artifactId>
++            <version>4.1.1</version>
++        </dependency>
++        <dependency>
++            <groupId>org.slf4j</groupId>
++            <artifactId>slf4j-simple</artifactId>
++            <version>1.8.0-beta4</version>
++        </dependency>
++        <dependency>
++            <groupId>org.slf4j</groupId>
++            <artifactId>slf4j-api</artifactId>
++            <version>1.8.0-beta4</version>
++        </dependency>
++        <dependency>
++            <groupId>org.postgresql</groupId>
++            <artifactId>postgresql</artifactId>
++            <version>42.3.1</version>
++        </dependency>
++        <dependency>
++            <groupId>com.fasterxml.jackson.core</groupId>
++            <artifactId>jackson-databind</artifactId>
++            <version>2.12.4</version>
++        </dependency>
++        <dependency>
++            <groupId>log4j</groupId>
++            <artifactId>log4j</artifactId>
++            <version>1.2.17</version>
++        </dependency>
++        <dependency>
++            <groupId>org.junit.jupiter</groupId>
++            <artifactId>junit-jupiter</artifactId>
++            <version>5.8.1</version>
++        </dependency>
++        <dependency>
++            <groupId>org.mockito</groupId>
++            <artifactId>mockito-core</artifactId>
++            <version>4.0.0</version>
++        </dependency>
++        <dependency>
++            <groupId>com.h2database</groupId>
++            <artifactId>h2</artifactId>
++            <version>1.4.200</version>
++        </dependency>
++    </dependencies>
++
++</project>
+\ No newline at end of file
+Index: log.log
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/log.log b/log.log
+new file mode 100644
+--- /dev/null	(date 1638381643360)
++++ b/log.log	(date 1638381643360)
+@@ -0,0 +1,8 @@
++2021-12-01 09:28:12 WARN  AccountController:50 - java.lang.NullPointerException
++2021-12-01 09:56:37 WARN  AccountController:50 - java.lang.NullPointerException
++2021-12-01 09:57:03 WARN  AccountController:114 - java.lang.IllegalArgumentException: 'account_id' is not a valid path-param for '/clients/{client_id}/accounts'.
++2021-12-01 09:57:09 WARN  AccountController:50 - java.lang.NullPointerException
++2021-12-01 09:58:55 WARN  AccountController:50 - java.lang.NullPointerException
++2021-12-01 09:59:41 WARN  AccountController:183 - java.lang.NullPointerException
++2021-12-01 10:00:13 WARN  AccountController:50 - java.lang.NullPointerException
++2021-12-01 10:00:43 WARN  AccountController:50 - java.lang.NullPointerException
+Index: src/test/java/dao/ClientsDAOTest.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/test/java/dao/ClientsDAOTest.java b/src/test/java/dao/ClientsDAOTest.java
+new file mode 100644
+--- /dev/null	(date 1638380000946)
++++ b/src/test/java/dao/ClientsDAOTest.java	(date 1638380000946)
+@@ -0,0 +1,63 @@
++package dao;
++
++import models.Account;
++import models.Client;
++import org.junit.jupiter.api.AfterEach;
++import org.junit.jupiter.api.BeforeEach;
++import org.junit.jupiter.api.Test;
++import org.mockito.Mockito;
++import util.H2UtilClient;
++
++import java.util.ArrayList;
++import java.util.List;
++
++import static org.junit.jupiter.api.Assertions.assertEquals;
++
++class ClientsDAOTest {
++
++    ClientsDAO clientsDAO;
++
++    public ClientsDAOTest() {
++        this.clientsDAO = new ClientsDAO(H2UtilClient.url, H2UtilClient.username, H2UtilClient.password);
++    }
++
++    @BeforeEach
++    void setUp() {
++        H2UtilClient.createTable();
++    }
++
++    @AfterEach
++    void tearDown() {
++        H2UtilClient.dropTable();
++    }
++
++    @Test
++    void getAllClients() {
++        //arrange
++        /*
++        List<Client> expectedResult = new ArrayList<>();
++        expectedResult.add(new Client(12, "first1", "last1"));
++
++        //act
++        List<Account> actualResult = accountServices.getSpecificAccounts(10,500d,100d);
++
++        //assert
++        assertEquals(expectedValue,actualResult); */
++    }
++
++    @Test
++    void getOneClient() {
++    }
++
++    @Test
++    void createClient() {
++    }
++
++    @Test
++    void updateAClient() {
++    }
++
++    @Test
++    void deleteClient() {
++    }
++}
+\ No newline at end of file
+Index: src/test/java/services/ClientServicesTest.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/test/java/services/ClientServicesTest.java b/src/test/java/services/ClientServicesTest.java
+new file mode 100644
+--- /dev/null	(date 1638381055323)
++++ b/src/test/java/services/ClientServicesTest.java	(date 1638381055323)
+@@ -0,0 +1,67 @@
++package services;
++
++import dao.AccountsDAO;
++import dao.ClientsDAO;
++import models.Account;
++import models.Client;
++import org.junit.jupiter.api.Test;
++import org.mockito.Mockito;
++
++import java.util.ArrayList;
++import java.util.List;
++
++import static org.junit.jupiter.api.Assertions.*;
++
++class ClientServicesTest {
++
++    ClientsDAO clientsDAO = Mockito.mock(ClientsDAO.class);
++
++    ClientServices clientServices;
++
++    public ClientServicesTest(){this.clientServices = new ClientServices(clientsDAO);}
++
++    @Test
++    void getAllClients() {
++
++        //arrange
++        List<Client> clientList = new ArrayList<>();
++        clientList.add(new Client(12, "test1", "last1"));
++        List<Client> expectedValue = clientList;
++        Mockito.when(clientServices.getAllClients()).thenReturn(clientList);
++
++        //act
++        List<Client> actualResult = clientServices.getAllClients();
++
++        //assert
++        assertEquals(expectedValue,actualResult);
++
++    }
++
++    @Test
++    void getOneClient() {//fails because client servives does not return anything
++
++        //arrange
++        Client expectedValue = new Client(10, "revature10", "demo10");
++        Client actualResult = new Client();
++        //Client expectedValue = Mockito.when(clientServices.getOneClient(12)).thenReturn(client);
++
++        //act
++        Mockito.when(clientServices.getOneClient(10)).thenReturn(actualResult);
++
++        //assert
++        assertEquals(expectedValue,actualResult);
++
++    }
++
++    @Test
++    void createClient() {
++    }
++
++    @Test
++    void updateAClient() {
++    }
++
++    @Test
++    void deleteClient() {
++    }
++}
+\ No newline at end of file
+Index: .idea/runConfigurations.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/runConfigurations.xml b/.idea/runConfigurations.xml
+new file mode 100644
+--- /dev/null	(date 1637608343421)
++++ b/.idea/runConfigurations.xml	(date 1637608343421)
+@@ -0,0 +1,10 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<project version="4">
++  <component name="RunConfigurationProducerService">
++    <option name="ignoredProducers">
++      <set>
++        <option value="com.android.tools.idea.compose.preview.runconfiguration.ComposePreviewRunConfigurationProducer" />
++      </set>
++    </option>
++  </component>
++</project>
+\ No newline at end of file
+Index: .idea/vcs.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/vcs.xml b/.idea/vcs.xml
+new file mode 100644
+--- /dev/null	(date 1637608343457)
++++ b/.idea/vcs.xml	(date 1637608343457)
+@@ -0,0 +1,6 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<project version="4">
++  <component name="VcsDirectoryMappings">
++    <mapping directory="$PROJECT_DIR$/.." vcs="Git" />
++  </component>
++</project>
+\ No newline at end of file
+Index: .idea/misc.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/misc.xml b/.idea/misc.xml
+new file mode 100644
+--- /dev/null	(date 1637608343387)
++++ b/.idea/misc.xml	(date 1637608343387)
+@@ -0,0 +1,14 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<project version="4">
++  <component name="ExternalStorageConfigurationManager" enabled="true" />
++  <component name="MavenProjectsManager">
++    <option name="originalFiles">
++      <list>
++        <option value="$PROJECT_DIR$/pom.xml" />
++      </list>
++    </option>
++  </component>
++  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_8" default="true" project-jdk-name="corretto-1.8" project-jdk-type="JavaSDK">
++    <output url="file://$PROJECT_DIR$/out" />
++  </component>
++</project>
+\ No newline at end of file
+Index: .idea/jarRepositories.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/jarRepositories.xml b/.idea/jarRepositories.xml
+new file mode 100644
+--- /dev/null	(date 1637608383026)
++++ b/.idea/jarRepositories.xml	(date 1637608383026)
+@@ -0,0 +1,20 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<project version="4">
++  <component name="RemoteRepositoriesConfiguration">
++    <remote-repository>
++      <option name="id" value="central" />
++      <option name="name" value="Central Repository" />
++      <option name="url" value="https://repo.maven.apache.org/maven2" />
++    </remote-repository>
++    <remote-repository>
++      <option name="id" value="central" />
++      <option name="name" value="Maven Central repository" />
++      <option name="url" value="https://repo1.maven.org/maven2" />
++    </remote-repository>
++    <remote-repository>
++      <option name="id" value="jboss.community" />
++      <option name="name" value="JBoss Community repository" />
++      <option name="url" value="https://repository.jboss.org/nexus/content/repositories/public/" />
++    </remote-repository>
++  </component>
++</project>
+\ No newline at end of file
+Index: src/main/java/Main.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/Main.java b/src/main/java/Main.java
+new file mode 100644
+--- /dev/null	(date 1638370415015)
++++ b/src/main/java/Main.java	(date 1638370415015)
+@@ -0,0 +1,15 @@
++import frontcontroller.FrontController;
++import io.javalin.Javalin;
++
++public class Main {
++
++    public static void main(String[] args) {
++
++        Javalin app = Javalin.create().start(8000);//creates the javaline instance and server
++        new FrontController(app);//sends the javalin object to frontcontroller
++
++    }
++
++}
++
++//http://localhost:8000/clients/10/accounts?amountLessThan=500&amountGreaterThan=50
+Index: .idea/.gitignore
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/.gitignore b/.idea/.gitignore
+new file mode 100644
+--- /dev/null	(date 1637608348269)
++++ b/.idea/.gitignore	(date 1637608348269)
+@@ -0,0 +1,3 @@
++# Default ignored files
++/shelf/
++/workspace.xml
+Index: .idea/compiler.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/compiler.xml b/.idea/compiler.xml
+new file mode 100644
+--- /dev/null	(date 1638383094399)
++++ b/.idea/compiler.xml	(date 1638383094399)
+@@ -0,0 +1,13 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<project version="4">
++  <component name="CompilerConfiguration">
++    <annotationProcessing>
++      <profile name="Maven default annotation processors profile" enabled="true">
++        <sourceOutputDir name="target/generated-sources/annotations" />
++        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
++        <outputRelativeToContentRoot value="true" />
++        <module name="Project0" />
++      </profile>
++    </annotationProcessing>
++  </component>
++</project>
+\ No newline at end of file
+Index: src/main/java/controllers/ClientController.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/controllers/ClientController.java b/src/main/java/controllers/ClientController.java
+new file mode 100644
+--- /dev/null	(date 1638375032474)
++++ b/src/main/java/controllers/ClientController.java	(date 1638375032474)
+@@ -0,0 +1,121 @@
++package controllers;
++
++import com.fasterxml.jackson.core.JsonProcessingException;
++import com.fasterxml.jackson.databind.ObjectMapper;
++import dao.ClientsDAO;
++import io.javalin.http.Context;
++import models.Client;
++import org.apache.log4j.Logger;
++import org.eclipse.jetty.util.log.Log;
++import services.ClientServices;
++
++import java.util.List;
++
++public class ClientController {
++    Logger log = Logger.getLogger(ClientController.class);
++    //refences the services
++    //put all the http requets and responces
++    static ClientServices clientServices = new ClientServices(new ClientsDAO());
++
++    public void getAllClients(Context context) throws JsonProcessingException {
++        context.contentType("application/json"); //sending back json data type
++
++        List<Client> clientList = clientServices.getAllClients(); //get all Clients from db
++
++        String jsonString = new ObjectMapper().writeValueAsString(clientList); //we used jackson to convert our list object to a json string
++
++        context.result(jsonString); //send data back
++
++        context.status(200);
++    }
++
++
++    public void getOneClient(Context context) throws JsonProcessingException {
++        context.contentType("application/json"); //sending back json
++
++        Integer clientId = Integer.parseInt(context.pathParam("client_id"));
++
++        Client client = clientServices.getOneClient(clientId);
++
++        if (client == null) { context.status(404);
++
++        }else {
++
++            context.result(new ObjectMapper().writeValueAsString(client));
++
++        }
++
++    }
++
++    public void createClient(Context context) {
++
++        try {
++
++            String firstname = (context.formParam("firstname"));
++            String lastname = (context.formParam("lastname"));
++
++            if (firstname == null || lastname == null) {
++
++                context.result("Invalid input");
++                context.status(400);
++
++            }
++
++            Client client = new Client(firstname, lastname);
++
++            if(!(firstname == null || lastname == null)){
++                context.result("Client created");
++                clientServices.createClient(client);
++                context.status(201);
++            }
++
++        }catch (Exception e) {
++
++            log.warn(e);
++            context.result("Invalid input");
++
++        }
++
++    }
++
++    public void updateAClient(Context context) {
++
++        Integer clientId = Integer.parseInt(context.pathParam("client_id"));
++
++        if (clientServices.getOneClient(clientId) == null) context.status(404);
++
++        try {
++            String firstname = (context.formParam("firstname"));
++            String lastname = (context.formParam("lastname"));
++
++            clientServices.updateAClient(clientId, firstname, lastname);
++
++            context.result("Updated Client with id " + clientId);
++
++        }catch (Exception e) {
++
++            context.result("Invalid Inputs");
++            log.warn(e);
++
++        }
++
++    }
++
++    public void deleteClient(Context context) {
++        Integer clientId = Integer.parseInt(context.pathParam("client_id"));
++
++        if (clientServices.getOneClient(clientId) == null) context.status(404);
++
++        else {
++
++            clientServices.deleteClient(clientId);
++
++            context.result("Deleted Client with id " + clientId);
++
++            context.status(205);
++
++        }
++
++    }
++
++}
+Index: src/main/java/dao/ClientsDaoInterface.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/dao/ClientsDaoInterface.java b/src/main/java/dao/ClientsDaoInterface.java
+new file mode 100644
+--- /dev/null	(date 1638059205009)
++++ b/src/main/java/dao/ClientsDaoInterface.java	(date 1638059205009)
+@@ -0,0 +1,13 @@
++package dao;
++
++import models.Client;
++
++import java.util.List;
++
++public interface ClientsDaoInterface {
++    List<Client> getAllClients();
++    Client getOneClient(Integer clientId);
++    void createClient(Client client);
++    void updateAClient(Integer clientId, String firstname, String lastname);
++    void deleteClient(Integer ClientId);
++}
+Index: src/main/java/dao/ClientsDAO.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/dao/ClientsDAO.java b/src/main/java/dao/ClientsDAO.java
+new file mode 100644
+--- /dev/null	(date 1638378218030)
++++ b/src/main/java/dao/ClientsDAO.java	(date 1638378218030)
+@@ -0,0 +1,163 @@
++package dao;
++
++import models.Client;
++import org.apache.log4j.Logger;
++
++import java.sql.*;
++import java.util.ArrayList;
++import java.util.List;
++
++public class ClientsDAO implements ClientsDaoInterface {
++
++    String url;
++    String username;
++    String password;
++
++    //all the jdbc stuff goes here
++    public ClientsDAO() {
++        url = "jdbc:postgresql://" + System.getenv("AWS_RDS_ENDPOINT") + "/Project0-Database";
++        username = System.getenv("RDS_USERNAME");
++        password = System.getenv("RDS_PASSWORD");
++
++    }
++
++    public ClientsDAO(String url, String username, String password) {
++        this.url = url;
++        this.username = username;
++        this.password = password;
++
++    }
++
++    Logger logger = Logger.getLogger(ClientsDAO.class);
++
++    @Override
++    public List<Client> getAllClients() {
++        List<Client> clients = new ArrayList<>();
++
++        //creates active connection to the database
++        try(Connection conn = DriverManager.getConnection(url, username, password)){ //try with resources
++
++            //sql that we will be executing
++            String sql = "SELECT * FROM client;";
++            PreparedStatement ps = conn.prepareStatement(sql);
++
++            //execute the sql statement and return the result set
++            ResultSet rs = ps.executeQuery();
++
++            //iterate through the result set
++            while(rs.next()){
++                clients.add(new Client(rs.getInt(1),rs.getString(2),rs.getString(3)));
++            }
++
++        }catch (SQLException e){
++            e.printStackTrace();
++            logger.error(e);
++        }
++
++        return clients;
++    }
++
++    @Override
++    public Client getOneClient(Integer clientId) {
++        Client client = null;
++
++        //creates active connection to the database
++        try(Connection conn = DriverManager.getConnection(url, username, password)){ //try with resources
++
++            //sql that we will be executing
++            String sql = "SELECT * FROM client WHERE id = ?;";
++            PreparedStatement ps = conn.prepareStatement(sql);
++
++            //we are setting the value of the question
++            ps.setInt(1,clientId);
++
++            //execute the sql statement and return the result set
++            ResultSet rs = ps.executeQuery();
++
++            //iterate through the result set
++            while(rs.next()) {
++                client = new Client(rs.getInt(1), rs.getString(2), rs.getString(3));
++            }
++
++
++
++        }catch (SQLException e){
++            e.printStackTrace();
++            logger.error(e);
++        }
++
++        return client;
++    }
++
++    @Override
++    public void createClient(Client client) {
++        //creates active connection to the database
++        try(Connection conn = DriverManager.getConnection(url, username, password)){ //try with resources
++
++            //sql that we will be executing
++            String sql = "INSERT INTO client VALUES (DEFAULT, ?, ?);";
++            PreparedStatement ps = conn.prepareStatement(sql);
++
++            //set value of question mark. the parameter index is which question mark you want to assign
++            ps.setString(1,  client.getFirstname());
++            ps.setString(2,  client.getLastname());
++
++            //execute the update
++            ps.executeUpdate();
++
++        }catch (SQLException e){
++            e.printStackTrace();
++            logger.error(e);
++        }
++
++
++    }
++
++    @Override
++    public void updateAClient(Integer clientId, String firstname, String lastname) {
++        //creates active connection to the database
++        try(Connection conn = DriverManager.getConnection(url, username, password)){ //try with resources
++
++            //sql that we will be executing
++            String sql = "UPDATE client SET first_name = ?, last_name = ? WHERE id = ?;";
++            PreparedStatement ps = conn.prepareStatement(sql);
++
++            //set value of question mark. the parameter index is which question mark you want to assign
++            ps.setString(1, firstname);
++            ps.setString(2, lastname);
++            ps.setInt(3, clientId);
++
++            //execute the update
++            ps.executeUpdate();
++
++        }catch (SQLException e){
++            e.printStackTrace();
++            logger.error(e);
++        }
++
++    }
++
++    @Override
++    public void deleteClient(Integer clientId) {
++
++        try(Connection conn = DriverManager.getConnection(url, username, password)){ //try with resources
++
++            //sql that we will be executing
++            String sql = "DELETE FROM client WHERE id = ?;";
++            PreparedStatement ps = conn.prepareStatement(sql);
++
++            //set value of question mark. the parameter index is which question mark you want to assign
++            ps.setInt(1, clientId);
++
++            //execute the update
++            ps.executeUpdate();
++
++        }catch (SQLException e){
++            e.printStackTrace();
++            logger.error(e);
++        }
++    }
++
++
++}
++
+Index: src/main/java/services/ClientServices.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/services/ClientServices.java b/src/main/java/services/ClientServices.java
+new file mode 100644
+--- /dev/null	(date 1638335706243)
++++ b/src/main/java/services/ClientServices.java	(date 1638335706243)
+@@ -0,0 +1,37 @@
++package services;
++
++import dao.ClientsDAO;
++import models.Client;
++
++import java.util.List;
++
++public class ClientServices {
++    //business logic
++    ClientsDAO clientsDao;
++
++    public ClientServices(ClientsDAO clientsDao) {this.clientsDao = clientsDao;}
++
++    public List<Client> getAllClients(){
++        return clientsDao.getAllClients();
++    }
++
++    public Client getOneClient(Integer id){
++        return clientsDao.getOneClient(id);
++    }
++
++    public Boolean createClient(Client client){
++
++        clientsDao.createClient(client);
++        return true;
++    }
++
++    public void updateAClient(Integer ClientId, String Firstname, String Lastname){
++        clientsDao.updateAClient(ClientId, Firstname, Lastname);
++
++    }
++
++    public void deleteClient(Integer ClientId){
++        clientsDao.deleteClient(ClientId);
++    }
++
++}
+Index: ../HelloLog4j/src/main/resources/log4j.properties
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>ISO-8859-1
+===================================================================
+diff --git a/../HelloLog4j/src/main/resources/log4j.properties b/../HelloLog4j/src/main/resources/log4j.properties
+new file mode 100644
+--- /dev/null	(date 1637617301997)
++++ b/../HelloLog4j/src/main/resources/log4j.properties	(date 1637617301997)
+@@ -0,0 +1,16 @@
++log4j.rootLogger=DEBUG, file
++
++# Redirect log messages to console
++#log4j.appender.stdout=org.apache.log4j.ConsoleAppender
++#log4j.appender.stdout.Target=System.out
++#log4j.appender.stdout.layout=org.apache.log4j.PatternLayout
++#log4j.appender.stdout.layout.ConversionPattern=%d{yyyy-MM-dd HH:mm:ss} %-5p %c{1}:%L - %m%n
++
++# Redirect log messages to a log file, support file rolling.
++log4j.appender.file=org.apache.log4j.RollingFileAppender
++#Update your file location here
++log4j.appender.file.File=./log.log.log.log.log
++log4j.appender.file.MaxFileSize=5MB
++log4j.appender.file.MaxBackupIndex=10
++log4j.appender.file.layout=org.apache.log4j.PatternLayout
++log4j.appender.file.layout.ConversionPattern=%d{yyyy-MM-dd HH:mm:ss} %-5p %c{1}:%L - %m%n
+\ No newline at end of file
+Index: ../Project-1-Selenium/.idea/workspace.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project version=\"4\">\r\n  <component name=\"AutoImportSettings\">\r\n    <option name=\"autoReloadType\" value=\"SELECTIVE\" />\r\n  </component>\r\n  <component name=\"ChangeListManager\">\r\n    <list default=\"true\" id=\"25981294-b298-41f6-bf64-fe435a002e98\" name=\"Changes\" comment=\"squash! Revert &quot;Yuhhh&quot;\">\r\n      <change afterPath=\"$PROJECT_DIR$/.idea/workspace.xml\" afterDir=\"false\" />\r\n      <change afterPath=\"$PROJECT_DIR$/pom.xml\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/../Project-1-Javalin/pom.xml\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/../Project-1-Javalin/pom.xml\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/../Project-1-Javalin/src/main/java/Main.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/../Project-1-Javalin/src/main/java/Main.java\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/../Project-1-Javalin/src/main/resources/index.html\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/../Project-1-Javalin/src/main/resources/index.html\" afterDir=\"false\" />\r\n    </list>\r\n    <option name=\"SHOW_DIALOG\" value=\"false\" />\r\n    <option name=\"HIGHLIGHT_CONFLICTS\" value=\"true\" />\r\n    <option name=\"HIGHLIGHT_NON_ACTIVE_CHANGELIST\" value=\"false\" />\r\n    <option name=\"LAST_RESOLUTION\" value=\"IGNORE\" />\r\n  </component>\r\n  <component name=\"Git.Settings\">\r\n    <option name=\"RECENT_BRANCH_BY_REPOSITORY\">\r\n      <map>\r\n        <entry key=\"$PROJECT_DIR$/..\" value=\"b8715f6ca5f0c1455c4a38531e29db2cd28577e4\" />\r\n      </map>\r\n    </option>\r\n    <option name=\"RECENT_GIT_ROOT_PATH\" value=\"$PROJECT_DIR$/..\" />\r\n  </component>\r\n  <component name=\"ProjectId\" id=\"20k1R1bsQJzBsxUNUXsbQfQFafL\" />\r\n  <component name=\"ProjectLevelVcsManager\" settingsEditedManually=\"true\" />\r\n  <component name=\"ProjectViewState\">\r\n    <option name=\"showLibraryContents\" value=\"true\" />\r\n  </component>\r\n  <component name=\"PropertiesComponent\">\r\n    <property name=\"RunOnceActivity.OpenProjectViewOnStart\" value=\"true\" />\r\n    <property name=\"RunOnceActivity.ShowReadmeOnStart\" value=\"true\" />\r\n    <property name=\"last_opened_file_path\" value=\"$PROJECT_DIR$\" />\r\n    <property name=\"project.structure.last.edited\" value=\"Modules\" />\r\n    <property name=\"project.structure.proportion\" value=\"0.0\" />\r\n    <property name=\"project.structure.side.proportion\" value=\"0.0\" />\r\n  </component>\r\n  <component name=\"SpellCheckerSettings\" RuntimeDictionaries=\"0\" Folders=\"0\" CustomDictionaries=\"0\" DefaultDictionary=\"application-level\" UseSingleDictionary=\"true\" transferred=\"true\" />\r\n  <component name=\"TaskManager\">\r\n    <task id=\"LOCAL-00001\" summary=\"squash! Revert &quot;Yuhhh&quot;\">\r\n      <created>1636562717617</created>\r\n      <option name=\"number\" value=\"00001\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00001\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1636562717617</updated>\r\n    </task>\r\n    <task active=\"true\" id=\"Default\" summary=\"Default task\">\r\n      <changelist id=\"25981294-b298-41f6-bf64-fe435a002e98\" name=\"Changes\" comment=\"squash! Revert &quot;Yuhhh&quot;\" />\r\n      <created>1636573760149</created>\r\n      <option name=\"number\" value=\"Default\" />\r\n      <option name=\"presentableId\" value=\"Default\" />\r\n      <updated>1636573760149</updated>\r\n    </task>\r\n    <option name=\"localTasksCounter\" value=\"2\" />\r\n    <servers />\r\n  </component>\r\n  <component name=\"Vcs.Log.Tabs.Properties\">\r\n    <option name=\"TAB_STATES\">\r\n      <map>\r\n        <entry key=\"MAIN\">\r\n          <value>\r\n            <State />\r\n          </value>\r\n        </entry>\r\n      </map>\r\n    </option>\r\n    <option name=\"oldMeFiltersMigrated\" value=\"true\" />\r\n  </component>\r\n  <component name=\"VcsManagerConfiguration\">\r\n    <MESSAGE value=\"squash! Revert &quot;Yuhhh&quot;\" />\r\n    <option name=\"LAST_COMMIT_MESSAGE\" value=\"squash! Revert &quot;Yuhhh&quot;\" />\r\n  </component>\r\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/../Project-1-Selenium/.idea/workspace.xml b/../Project-1-Selenium/.idea/workspace.xml
+--- a/../Project-1-Selenium/.idea/workspace.xml	(revision 75c4179d48b4b1b118d0d639ce548857b805cd02)
++++ b/../Project-1-Selenium/.idea/workspace.xml	(date 1636576032841)
+@@ -4,13 +4,7 @@
+     <option name="autoReloadType" value="SELECTIVE" />
+   </component>
+   <component name="ChangeListManager">
+-    <list default="true" id="25981294-b298-41f6-bf64-fe435a002e98" name="Changes" comment="squash! Revert &quot;Yuhhh&quot;">
+-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/../Project-1-Javalin/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../Project-1-Javalin/pom.xml" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/../Project-1-Javalin/src/main/java/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Project-1-Javalin/src/main/java/Main.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/../Project-1-Javalin/src/main/resources/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/../Project-1-Javalin/src/main/resources/index.html" afterDir="false" />
+-    </list>
++    <list default="true" id="25981294-b298-41f6-bf64-fe435a002e98" name="Changes" comment="squash! Revert &quot;Yuhhh&quot;" />
+     <option name="SHOW_DIALOG" value="false" />
+     <option name="HIGHLIGHT_CONFLICTS" value="true" />
+     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+Index: src/main/java/models/Client.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/models/Client.java b/src/main/java/models/Client.java
+new file mode 100644
+--- /dev/null	(date 1637912972653)
++++ b/src/main/java/models/Client.java	(date 1637912972653)
+@@ -0,0 +1,35 @@
++package models;
++
++public class Client {
++
++    private Integer id;
++    private String firstname;
++    private String lastname;
++
++    public Client() {}
++
++    public Client(String first, String last) {
++        this.id = 0;
++        this.firstname = first;
++        this.lastname = last;
++    }
++
++    public Client(Integer id, String first, String last) {
++        this.id = id;
++        this.firstname = first;
++        this.lastname = last;
++    }
++
++    public Integer getId() {return id;}
++
++    public String getFirstname() {return firstname;}
++
++    public String getLastname() {return lastname;}
++
++    public void setId(Integer id) {this.id = id;}
++
++    public void setFirstname(String firstname) {this.firstname = firstname;}
++
++    public void setLastname(String lastname) {this.lastname = lastname;}
++
++}
+Index: .idea/uiDesigner.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/uiDesigner.xml b/.idea/uiDesigner.xml
+new file mode 100644
+--- /dev/null	(date 1637612853416)
++++ b/.idea/uiDesigner.xml	(date 1637612853416)
+@@ -0,0 +1,124 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<project version="4">
++  <component name="Palette2">
++    <group name="Swing">
++      <item class="com.intellij.uiDesigner.HSpacer" tooltip-text="Horizontal Spacer" icon="/com/intellij/uiDesigner/icons/hspacer.png" removable="false" auto-create-binding="false" can-attach-label="false">
++        <default-constraints vsize-policy="1" hsize-policy="6" anchor="0" fill="1" />
++      </item>
++      <item class="com.intellij.uiDesigner.VSpacer" tooltip-text="Vertical Spacer" icon="/com/intellij/uiDesigner/icons/vspacer.png" removable="false" auto-create-binding="false" can-attach-label="false">
++        <default-constraints vsize-policy="6" hsize-policy="1" anchor="0" fill="2" />
++      </item>
++      <item class="javax.swing.JPanel" icon="/com/intellij/uiDesigner/icons/panel.png" removable="false" auto-create-binding="false" can-attach-label="false">
++        <default-constraints vsize-policy="3" hsize-policy="3" anchor="0" fill="3" />
++      </item>
++      <item class="javax.swing.JScrollPane" icon="/com/intellij/uiDesigner/icons/scrollPane.png" removable="false" auto-create-binding="false" can-attach-label="true">
++        <default-constraints vsize-policy="7" hsize-policy="7" anchor="0" fill="3" />
++      </item>
++      <item class="javax.swing.JButton" icon="/com/intellij/uiDesigner/icons/button.png" removable="false" auto-create-binding="true" can-attach-label="false">
++        <default-constraints vsize-policy="0" hsize-policy="3" anchor="0" fill="1" />
++        <initial-values>
++          <property name="text" value="Button" />
++        </initial-values>
++      </item>
++      <item class="javax.swing.JRadioButton" icon="/com/intellij/uiDesigner/icons/radioButton.png" removable="false" auto-create-binding="true" can-attach-label="false">
++        <default-constraints vsize-policy="0" hsize-policy="3" anchor="8" fill="0" />
++        <initial-values>
++          <property name="text" value="RadioButton" />
++        </initial-values>
++      </item>
++      <item class="javax.swing.JCheckBox" icon="/com/intellij/uiDesigner/icons/checkBox.png" removable="false" auto-create-binding="true" can-attach-label="false">
++        <default-constraints vsize-policy="0" hsize-policy="3" anchor="8" fill="0" />
++        <initial-values>
++          <property name="text" value="CheckBox" />
++        </initial-values>
++      </item>
++      <item class="javax.swing.JLabel" icon="/com/intellij/uiDesigner/icons/label.png" removable="false" auto-create-binding="false" can-attach-label="false">
++        <default-constraints vsize-policy="0" hsize-policy="0" anchor="8" fill="0" />
++        <initial-values>
++          <property name="text" value="Label" />
++        </initial-values>
++      </item>
++      <item class="javax.swing.JTextField" icon="/com/intellij/uiDesigner/icons/textField.png" removable="false" auto-create-binding="true" can-attach-label="true">
++        <default-constraints vsize-policy="0" hsize-policy="6" anchor="8" fill="1">
++          <preferred-size width="150" height="-1" />
++        </default-constraints>
++      </item>
++      <item class="javax.swing.JPasswordField" icon="/com/intellij/uiDesigner/icons/passwordField.png" removable="false" auto-create-binding="true" can-attach-label="true">
++        <default-constraints vsize-policy="0" hsize-policy="6" anchor="8" fill="1">
++          <preferred-size width="150" height="-1" />
++        </default-constraints>
++      </item>
++      <item class="javax.swing.JFormattedTextField" icon="/com/intellij/uiDesigner/icons/formattedTextField.png" removable="false" auto-create-binding="true" can-attach-label="true">
++        <default-constraints vsize-policy="0" hsize-policy="6" anchor="8" fill="1">
++          <preferred-size width="150" height="-1" />
++        </default-constraints>
++      </item>
++      <item class="javax.swing.JTextArea" icon="/com/intellij/uiDesigner/icons/textArea.png" removable="false" auto-create-binding="true" can-attach-label="true">
++        <default-constraints vsize-policy="6" hsize-policy="6" anchor="0" fill="3">
++          <preferred-size width="150" height="50" />
++        </default-constraints>
++      </item>
++      <item class="javax.swing.JTextPane" icon="/com/intellij/uiDesigner/icons/textPane.png" removable="false" auto-create-binding="true" can-attach-label="true">
++        <default-constraints vsize-policy="6" hsize-policy="6" anchor="0" fill="3">
++          <preferred-size width="150" height="50" />
++        </default-constraints>
++      </item>
++      <item class="javax.swing.JEditorPane" icon="/com/intellij/uiDesigner/icons/editorPane.png" removable="false" auto-create-binding="true" can-attach-label="true">
++        <default-constraints vsize-policy="6" hsize-policy="6" anchor="0" fill="3">
++          <preferred-size width="150" height="50" />
++        </default-constraints>
++      </item>
++      <item class="javax.swing.JComboBox" icon="/com/intellij/uiDesigner/icons/comboBox.png" removable="false" auto-create-binding="true" can-attach-label="true">
++        <default-constraints vsize-policy="0" hsize-policy="2" anchor="8" fill="1" />
++      </item>
++      <item class="javax.swing.JTable" icon="/com/intellij/uiDesigner/icons/table.png" removable="false" auto-create-binding="true" can-attach-label="false">
++        <default-constraints vsize-policy="6" hsize-policy="6" anchor="0" fill="3">
++          <preferred-size width="150" height="50" />
++        </default-constraints>
++      </item>
++      <item class="javax.swing.JList" icon="/com/intellij/uiDesigner/icons/list.png" removable="false" auto-create-binding="true" can-attach-label="false">
++        <default-constraints vsize-policy="6" hsize-policy="2" anchor="0" fill="3">
++          <preferred-size width="150" height="50" />
++        </default-constraints>
++      </item>
++      <item class="javax.swing.JTree" icon="/com/intellij/uiDesigner/icons/tree.png" removable="false" auto-create-binding="true" can-attach-label="false">
++        <default-constraints vsize-policy="6" hsize-policy="6" anchor="0" fill="3">
++          <preferred-size width="150" height="50" />
++        </default-constraints>
++      </item>
++      <item class="javax.swing.JTabbedPane" icon="/com/intellij/uiDesigner/icons/tabbedPane.png" removable="false" auto-create-binding="true" can-attach-label="false">
++        <default-constraints vsize-policy="3" hsize-policy="3" anchor="0" fill="3">
++          <preferred-size width="200" height="200" />
++        </default-constraints>
++      </item>
++      <item class="javax.swing.JSplitPane" icon="/com/intellij/uiDesigner/icons/splitPane.png" removable="false" auto-create-binding="false" can-attach-label="false">
++        <default-constraints vsize-policy="3" hsize-policy="3" anchor="0" fill="3">
++          <preferred-size width="200" height="200" />
++        </default-constraints>
++      </item>
++      <item class="javax.swing.JSpinner" icon="/com/intellij/uiDesigner/icons/spinner.png" removable="false" auto-create-binding="true" can-attach-label="true">
++        <default-constraints vsize-policy="0" hsize-policy="6" anchor="8" fill="1" />
++      </item>
++      <item class="javax.swing.JSlider" icon="/com/intellij/uiDesigner/icons/slider.png" removable="false" auto-create-binding="true" can-attach-label="false">
++        <default-constraints vsize-policy="0" hsize-policy="6" anchor="8" fill="1" />
++      </item>
++      <item class="javax.swing.JSeparator" icon="/com/intellij/uiDesigner/icons/separator.png" removable="false" auto-create-binding="false" can-attach-label="false">
++        <default-constraints vsize-policy="6" hsize-policy="6" anchor="0" fill="3" />
++      </item>
++      <item class="javax.swing.JProgressBar" icon="/com/intellij/uiDesigner/icons/progressbar.png" removable="false" auto-create-binding="true" can-attach-label="false">
++        <default-constraints vsize-policy="0" hsize-policy="6" anchor="0" fill="1" />
++      </item>
++      <item class="javax.swing.JToolBar" icon="/com/intellij/uiDesigner/icons/toolbar.png" removable="false" auto-create-binding="false" can-attach-label="false">
++        <default-constraints vsize-policy="0" hsize-policy="6" anchor="0" fill="1">
++          <preferred-size width="-1" height="20" />
++        </default-constraints>
++      </item>
++      <item class="javax.swing.JToolBar$Separator" icon="/com/intellij/uiDesigner/icons/toolbarSeparator.png" removable="false" auto-create-binding="false" can-attach-label="false">
++        <default-constraints vsize-policy="0" hsize-policy="0" anchor="0" fill="1" />
++      </item>
++      <item class="javax.swing.JScrollBar" icon="/com/intellij/uiDesigner/icons/scrollbar.png" removable="false" auto-create-binding="true" can-attach-label="false">
++        <default-constraints vsize-policy="6" hsize-policy="0" anchor="0" fill="2" />
++      </item>
++    </group>
++  </component>
++</project>
+\ No newline at end of file
+Index: src/main/java/models/Account.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/models/Account.java b/src/main/java/models/Account.java
+new file mode 100644
+--- /dev/null	(date 1638307616072)
++++ b/src/main/java/models/Account.java	(date 1638307616072)
+@@ -0,0 +1,41 @@
++package models;
++
++public class Account {
++
++    private Integer id;
++    private Double balance;
++    private Integer client_id;
++
++    public Account() {}
++
++    public Account(Integer clientid) {
++        this.id = 0;
++        this.balance = 0d;
++        this.client_id = clientid;
++    }
++
++    public Account(Integer client_id, Double balance) {
++        this.client_id = client_id;
++        this.balance = balance;
++    }
++
++    public Account(Integer id, Integer clientid, Double balance) {
++        this.id = id;
++        this.balance = balance;
++        this.client_id = clientid;
++    }
++
++    public Integer getId() {return this.id;}
++
++    public Double getBal() {return this.balance;}
++
++    public Integer getclientID() {return this.client_id;}
++
++    public void setId(Integer id) {this.id = id;}
++
++    public void addBalance(Double money) {this.balance += money;}
++
++    public void reduceBalance(Double debt) {this.balance -= debt;}
++
++
++}
+Index: src/main/java/frontcontroller/Dispatcher.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/frontcontroller/Dispatcher.java b/src/main/java/frontcontroller/Dispatcher.java
+new file mode 100644
+--- /dev/null	(date 1638370823955)
++++ b/src/main/java/frontcontroller/Dispatcher.java	(date 1638370823955)
+@@ -0,0 +1,50 @@
++package frontcontroller;
++
++import controllers.AccountController;
++import controllers.ClientController;
++import io.javalin.Javalin;
++
++import static io.javalin.apibuilder.ApiBuilder.*;
++
++public class Dispatcher {
++
++    ClientController clientController = new ClientController();
++    AccountController accountController = new AccountController();
++
++    public Dispatcher(Javalin app) { //dispatcher waits until it receives an HTTP request
++
++        app.routes(() -> {
++            path("clients", () -> {
++                //:: is the method reference operator
++                get(clientController::getAllClients); //will get all the clients from the database
++                post(clientController::createClient); //will put a client in the database
++                path("{client_id}", () -> {
++                    get(clientController::getOneClient); //will get one client from the database
++                    put(clientController::updateAClient); //will modify a single client from the database
++                    delete(clientController::deleteClient); //will remove a client and all connected accounts from the database
++                    path("accounts", () -> {
++                       get(accountController::getAllAccounts); //will get all accounts linked to that client id number
++                       post(accountController::createAccount); //will make a new account for that client
++                            path("{account_id}", () -> {
++                               get(accountController::getOneAccount); //will get a specific account for that client
++                               put(accountController::updateAccount); //will modify a single account for that client
++                               patch(accountController::modifyAccount); //will deal with depositing and withdrawing a client that the client has
++                               delete(accountController::deleteAccount); //will remove that specific account for the client
++                               path("transfer", () -> {
++                                   path("{deposit_account}", () -> {
++                                       patch(accountController::transferAccountMoney); //will be dealing with transfering money between accounts for the client
++                                   });
++                                });
++                            });
++                    });
++                });
++            });
++
++        });
++    }
++
++
++}
++
++
++
+Index: src/main/java/frontcontroller/FrontController.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/frontcontroller/FrontController.java b/src/main/java/frontcontroller/FrontController.java
+new file mode 100644
+--- /dev/null	(date 1638370643281)
++++ b/src/main/java/frontcontroller/FrontController.java	(date 1638370643281)
+@@ -0,0 +1,12 @@
++package frontcontroller;
++
++import io.javalin.Javalin;
++
++public class FrontController {
++
++    public FrontController(Javalin app) {
++        //middle ware goes here to make sure the user is registered and such things
++        new Dispatcher(app);//gets the javalin object and sends it directly to dispatcher
++    }
++
++}
+Index: ../HelloLog4j/pom.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/../HelloLog4j/pom.xml b/../HelloLog4j/pom.xml
+new file mode 100644
+--- /dev/null	(date 1637616772395)
++++ b/../HelloLog4j/pom.xml	(date 1637616772395)
+@@ -0,0 +1,24 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<project xmlns="http://maven.apache.org/POM/4.0.0"
++         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
++         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
++    <modelVersion>4.0.0</modelVersion>
++
++    <groupId>org.example</groupId>
++    <artifactId>HelloLog4j</artifactId>
++    <version>1.0-SNAPSHOT</version>
++
++    <properties>
++        <maven.compiler.source>8</maven.compiler.source>
++        <maven.compiler.target>8</maven.compiler.target>
++    </properties>
++
++    <dependencies>
++        <dependency>
++            <groupId>log4j</groupId>
++            <artifactId>log4j</artifactId>
++            <version>1.2.17</version>
++        </dependency>
++    </dependencies>
++
++</project>
+\ No newline at end of file
+Index: src/main/java/dao/AccountsDAO.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/dao/AccountsDAO.java b/src/main/java/dao/AccountsDAO.java
+new file mode 100644
+--- /dev/null	(date 1638374902482)
++++ b/src/main/java/dao/AccountsDAO.java	(date 1638374902482)
+@@ -0,0 +1,174 @@
++package dao;
++
++import models.Account;
++
++import java.sql.*;
++import java.util.ArrayList;
++import java.util.List;
++import org.apache.log4j.Logger;
++
++public class AccountsDAO implements AccountsDAOInterface{
++
++    String url = "jdbc:postgresql://" + System.getenv("AWS_RDS_ENDPOINT") + "/Project0-Database";
++    String username = System.getenv("RDS_USERNAME");
++    String password = System.getenv("RDS_PASSWORD");
++
++    Logger log = Logger.getLogger(String.valueOf(AccountsDAO.class));
++
++    @Override
++    public List<Account> getAllAccounts(Integer clientId) {
++        List<Account> account = new ArrayList<>();
++
++        //creates active connection to the database
++        try(Connection conn = DriverManager.getConnection(url, username, password)){ //try with resources
++
++            //sql that we will be executing
++            String sql = "SELECT * FROM account WHERE client_id = ?;";
++            PreparedStatement ps = conn.prepareStatement(sql);
++            ps.setInt(1, clientId);
++
++            //execute the sql statement and return the result set
++            ResultSet rs = ps.executeQuery();
++
++            //iterate through the result set
++            while(rs.next()){
++                account.add(new Account(rs.getInt(1),rs.getInt(2), rs.getDouble(3)));
++            }
++
++        }catch (SQLException e){
++            e.printStackTrace();
++            log.error(e);
++        }
++
++        return account;
++    }
++
++    @Override
++    public Account getOneAccount(Integer accountId) {
++        Account account = null;
++
++        //creates active connection to the database
++        try(Connection conn = DriverManager.getConnection(url, username, password)){ //try with resources
++
++            //sql that we will be executing
++            String sql = "SELECT * FROM account WHERE account_id = ?;";
++            PreparedStatement ps = conn.prepareStatement(sql);
++
++            //we are setting the value of the question
++            ps.setInt(1,accountId);
++
++            //execute the sql statement and return the result set
++            ResultSet rs = ps.executeQuery();
++
++            //iterate through the result set
++            while(rs.next()) {
++                account = new Account(rs.getInt(1), rs.getInt(2), rs.getDouble(3));
++            }
++
++        }catch (SQLException e){
++            e.printStackTrace();
++            log.error(e);
++        }
++
++        return account;
++    }
++
++    @Override
++    public void createAccount(Account account) {
++        //creates active connection to the database
++        try(Connection conn = DriverManager.getConnection(url, username, password)){ //try with resources
++
++            //sql that we will be executing
++            String sql = "INSERT INTO account VALUES (DEFAULT, ?, ?);";
++            PreparedStatement ps = conn.prepareStatement(sql);
++
++            //set value of question mark. the parameter index is which question mark you want to assign
++            ps.setInt(1,  account.getclientID());
++            ps.setDouble(2,  account.getBal());
++
++            //execute the update
++            ps.executeUpdate();
++
++        }catch (SQLException e){
++            e.printStackTrace();
++            log.error(e);
++        }
++
++
++    }
++
++    @Override
++    public void updateAccount(Integer accountId, Double balance) {
++        //creates active connection to the database
++        try(Connection conn = DriverManager.getConnection(url, username, password)){ //try with resources
++
++            //sql that we will be executing
++            String sql = "UPDATE account SET balance = ? WHERE account_id = ?;";
++            PreparedStatement ps = conn.prepareStatement(sql);
++
++            //set value of question mark. the parameter index is which question mark you want to assign
++            ps.setDouble(1, balance);
++            ps.setInt(2, accountId);
++
++            //execute the update
++            ps.executeUpdate();
++
++        }catch (SQLException e){
++            e.printStackTrace();
++            log.error(e);
++        }
++
++    }
++
++    @Override
++    public void deleteAccount(Integer accountId) {
++
++        try(Connection conn = DriverManager.getConnection(url, username, password)){ //try with resources
++
++            //sql that we will be executing
++            String sql = "DELETE FROM account WHERE account_id = ?;";
++            PreparedStatement ps = conn.prepareStatement(sql);
++
++            //set value of question mark. the parameter index is which question mark you want to assign
++            ps.setInt(1, accountId);
++
++            //execute the update
++            ps.executeUpdate();
++
++        }catch (SQLException e){
++            e.printStackTrace();
++            log.error(e);
++        }
++    }
++
++    public List<Account> getSpecificAccounts(Integer clientId, Double amount1, Double amount2) {
++
++        List<Account> account = new ArrayList<>();
++
++        //creates active connection to the database
++        try(Connection conn = DriverManager.getConnection(url, username, password)){ //try with resources
++
++            //sql that we will be executing
++            String sql = "SELECT * FROM account WHERE client_id = ? AND balance > ? AND balance < ?;";
++            PreparedStatement ps = conn.prepareStatement(sql);
++            ps.setInt(1, clientId);
++            ps.setDouble(2, amount2);
++            ps.setDouble(3, amount1);
++
++            //execute the sql statement and return the result set
++            ResultSet rs = ps.executeQuery();
++
++            //iterate through the result set
++            while(rs.next()){
++                account.add(new Account(rs.getInt(1),rs.getInt(2), rs.getDouble(3)));
++            }
++
++        }catch (SQLException e){
++            e.printStackTrace();
++            log.error(e);
++        }
++
++        return account;
++
++    }
++}
+Index: src/main/java/dao/AccountsDAOInterface.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/dao/AccountsDAOInterface.java b/src/main/java/dao/AccountsDAOInterface.java
+new file mode 100644
+--- /dev/null	(date 1638330250331)
++++ b/src/main/java/dao/AccountsDAOInterface.java	(date 1638330250331)
+@@ -0,0 +1,16 @@
++package dao;
++
++
++
++import models.Account;
++
++import java.util.List;
++
++public interface AccountsDAOInterface {
++    List<Account> getAllAccounts(Integer clientId);
++    List<Account> getSpecificAccounts(Integer clientId, Double lessthan, Double greaterthan);
++    Account getOneAccount(Integer accountId);
++    void createAccount(Account account);
++    void updateAccount(Integer account, Double balance);
++    void deleteAccount(Integer ClientId);
++}
+Index: src/main/java/controllers/AccountController.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/controllers/AccountController.java b/src/main/java/controllers/AccountController.java
+new file mode 100644
+--- /dev/null	(date 1638375126312)
++++ b/src/main/java/controllers/AccountController.java	(date 1638375126312)
+@@ -0,0 +1,218 @@
++package controllers;
++
++import com.fasterxml.jackson.core.JsonProcessingException;
++import com.fasterxml.jackson.databind.ObjectMapper;
++import dao.AccountsDAO;
++import dao.ClientsDAO;
++import io.javalin.http.Context;
++import models.Account;
++
++import org.apache.log4j.Logger;
++import services.AccountServices;
++import services.ClientServices;
++
++import java.util.List;
++import java.util.concurrent.ExecutionException;
++
++public class AccountController {
++    Logger log = Logger.getLogger(AccountController.class);
++    //references the services
++    //put all the http requests and responses
++    static AccountServices accountServices = new AccountServices(new AccountsDAO());
++    static ClientServices clientServices = new ClientServices(new ClientsDAO());
++
++    public void getAllAccounts(Context context) throws JsonProcessingException {
++
++        Integer clientId = Integer.parseInt(context.pathParam("client_id"));
++
++        Double lessthan;
++        Double greaterthan;
++
++        Boolean flag = true;
++
++        //lessthan = Double.parseDouble(context.queryParam("amountLessThan"));
++        //greaterthan = Double.parseDouble(context.queryParam("amountGreaterThan"));
++
++        try {
++
++            context.contentType("application/json");
++
++            lessthan = Double.parseDouble(context.queryParam("amountLessThan"));
++            greaterthan = Double.parseDouble(context.queryParam("amountGreaterThan"));
++
++            List<Account> accountList = accountServices.getSpecificAccounts(clientId, lessthan, greaterthan);
++
++            context.result(new ObjectMapper().writeValueAsString(accountList));
++
++            flag = false;
++
++        }
++        catch (Exception e){log.warn(e);}
++
++
++
++        if (clientServices.getOneClient(clientId) == null) {
++
++            context.status(404);
++
++        }else if (flag) {
++
++            context.contentType("application/json"); //sending back json
++
++            List<Account> accountList = accountServices.getAllAccounts(clientId); //get all Clients from db
++
++            String jsonString = new ObjectMapper().writeValueAsString(accountList); //we used jackson to convert our list object to a json string
++
++            context.result(jsonString); //send data back
++
++        }
++    }
++
++
++    public void getOneAccount(Context context) throws JsonProcessingException {
++        context.contentType("application/json"); //sending back json
++
++        Integer accountId = Integer.parseInt(context.pathParam("account_id"));
++
++        Account account = accountServices.getOneAccount(accountId);
++
++        if (account == null) {
++
++            context.status(404);
++
++        }else {
++
++            context.result(new ObjectMapper().writeValueAsString(account));
++
++        }
++
++    }
++
++    public void createAccount(Context context) {
++
++        Integer clientId = Integer.parseInt(context.pathParam("client_id"));
++
++        if (clientServices.getOneClient(clientId) == null) {
++
++            context.status(404);
++
++        }else {
++
++            Double balance = Double.parseDouble(context.formParam("balance"));
++
++            Account account = new Account(clientId, balance);
++
++            try {
++
++                Integer accountId = Integer.parseInt(context.pathParam("account_id"));
++
++                if (accountServices.createAccount(account) && (accountServices.getOneAccount(accountId) != null)) {
++                    context.status(201);
++                }
++
++            }catch (Exception e) {
++                log.warn(e);
++                if (accountServices.createAccount(account)) {
++                    context.status(201);
++                }
++
++            }
++
++        }
++    }
++
++    public void updateAccount(Context context) {
++
++        Integer clientId = Integer.parseInt(context.pathParam("client_id"));
++
++        Integer accountId = Integer.parseInt(context.pathParam("account_id"));
++
++        if ((clientServices.getOneClient(clientId) == null) || (accountServices.getOneAccount(accountId) == null)) {
++
++            context.status(404);
++
++        }else {
++
++            try {
++
++                Double balance = Double.parseDouble(context.formParam("balance"));
++
++                accountServices.updateAccount(accountId, balance, -1.3d);
++
++            }catch (Exception e) {log.warn(e);};
++
++        }
++
++    }
++
++    public void deleteAccount(Context context) {
++
++        Integer clientId = Integer.parseInt(context.pathParam("client_id"));
++
++        if (clientServices.getOneClient(clientId) == null) {
++
++            context.status(404);
++
++        }else {
++
++            Integer accountId = Integer.parseInt(context.pathParam("account_id"));
++
++            accountServices.deleteAccount(accountId);
++
++            context.result("Deleted Account with id " + accountId);
++
++        }
++    }
++
++    public void modifyAccount(Context context) {
++
++        Integer clientId = Integer.parseInt(context.pathParam("client_id"));
++
++        Integer accountId = Integer.parseInt(context.pathParam("account_id"));
++
++        Integer retvalue = 200;
++
++        if ((clientServices.getOneClient(clientId) == null) || (accountServices.getOneAccount(accountId) == null)) context.status(404);
++
++            try {
++
++                Double deposit = Double.parseDouble(context.formParam("deposit"));
++
++                retvalue = accountServices.updateAccount(accountId, -1.1d, deposit);
++
++            }catch (Exception e) {log.warn(e);};
++
++            try {
++
++                Double withdraw = Double.parseDouble(context.formParam("withdraw"));
++
++                retvalue = accountServices.updateAccount(accountId, -1.2d, withdraw);
++
++            }catch (Exception e) {log.warn(e);};
++
++        context.status(retvalue);
++
++    }
++
++    public void transferAccountMoney(Context context) {
++
++        Integer clientId = Integer.parseInt(context.pathParam("client_id"));
++        Integer accountId1 = Integer.parseInt(context.pathParam("account_id"));
++        Integer accountId2 = Integer.parseInt(context.pathParam("deposit_account"));
++        Integer retval;
++
++        if ((accountServices.getOneAccount(accountId1) == null) || (accountServices.getOneAccount(accountId2) == null) || (clientServices.getOneClient(clientId) == null)) context.status(404);
++
++        try {
++
++            Double amount = Double.parseDouble(context.formParam("amount"));
++
++            retval = accountServices.transferMoney(accountId1, accountId2, amount);
++
++            context.status(retval);
++
++        }catch (Exception e) {log.warn(e);}
++
++    }
++
++}
+Index: src/main/java/services/AccountServices.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/services/AccountServices.java b/src/main/java/services/AccountServices.java
+new file mode 100644
+--- /dev/null	(date 1638339796438)
++++ b/src/main/java/services/AccountServices.java	(date 1638339796438)
+@@ -0,0 +1,62 @@
++package services;
++
++import dao.AccountsDAO;
++import dao.ClientsDAO;
++import frontcontroller.Dispatcher;
++import io.javalin.Javalin;
++import models.Account;
++import models.Client;
++
++import java.util.List;
++
++//check for balance here
++//transfer you can call other methods
++
++public class AccountServices {
++    AccountsDAO accountDAO;
++
++    public AccountServices(AccountsDAO accountsDAO) {this.accountDAO = accountsDAO;}
++
++    public boolean createAccount(Account account) {
++        accountDAO.createAccount(account);
++        return true;
++    }
++
++    public List<Account> getAllAccounts(Integer clientId) {return accountDAO.getAllAccounts(clientId);}
++
++    public List<Account> getSpecificAccounts(Integer clientId, Double amount1, Double amount2) {return accountDAO.getSpecificAccounts(clientId, amount1, amount2);}
++
++    public Account getOneAccount(Integer accountId) {return accountDAO.getOneAccount(accountId);}
++
++    public Integer updateAccount(Integer accountId, Double balance, Double update) {
++
++        if (update == -1.3) accountDAO.updateAccount(accountId, balance);
++
++        Account testaccount = getOneAccount(accountId);
++
++        if (balance == -1.2 && testaccount.getBal() < update) return 422;
++
++        if (testaccount.getBal() > update && balance == -1.2) accountDAO.updateAccount(accountId, (testaccount.getBal() - update));
++
++        if (balance == -1.1) accountDAO.updateAccount(accountId, (testaccount.getBal() + update));
++
++        return 200;
++
++    }
++
++    public void deleteAccount(Integer accountId) {accountDAO.deleteAccount(accountId);}
++
++    public Integer transferMoney(Integer accountId1, Integer accountId2, Double amount) {
++
++        Account account1 = accountDAO.getOneAccount(accountId1);
++        Account account2 = accountDAO.getOneAccount(accountId2);
++
++        if (account1.getBal() < amount) return 422;
++
++        accountDAO.updateAccount(accountId1, (account1.getBal() - amount));
++        accountDAO.updateAccount(accountId2, (account2.getBal() + amount));
++
++        return 200;
++
++    }
++}
+Index: ../HelloLog4j/.idea/workspace.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/../HelloLog4j/.idea/workspace.xml b/../HelloLog4j/.idea/workspace.xml
+new file mode 100644
+--- /dev/null	(date 1637617013659)
++++ b/../HelloLog4j/.idea/workspace.xml	(date 1637617013659)
+@@ -0,0 +1,75 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<project version="4">
++  <component name="AutoImportSettings">
++    <option name="autoReloadType" value="SELECTIVE" />
++  </component>
++  <component name="ChangeListManager">
++    <list default="true" id="2205a9ba-eaef-4c4b-bc43-0961d39b48f4" name="Changes" comment="">
++      <change afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/.idea/jarRepositories.xml" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/.idea/runConfigurations.xml" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/src/main/resources/log4j.properties" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/../Project0/.idea/.gitignore" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/../Project0/.idea/compiler.xml" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/../Project0/.idea/jarRepositories.xml" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/../Project0/.idea/misc.xml" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/../Project0/.idea/runConfigurations.xml" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/../Project0/.idea/uiDesigner.xml" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/../Project0/.idea/vcs.xml" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/../Project0/src/main/java/Main.java" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/../Project0/src/main/java/controllers/Controller.java" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/../Project0/src/main/java/dao/DAO.java" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/../Project0/src/main/java/dao/DaoInterface.java" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/../Project0/src/main/java/frontcontroller/Dispatcher.java" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/../Project0/src/main/java/frontcontroller/FrontController.java" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/../Project0/src/main/java/models/Account.java" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/../Project0/src/main/java/models/Client.java" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/../Project0/src/main/java/services/Services.java" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/../Project-1-Javalin/src/main/java/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Project-1-Javalin/src/main/java/Main.java" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/../Project-1-Javalin/target/classes/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/../Project-1-Javalin/target/classes/Main.class" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/../Project-1-Selenium/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../Project-1-Selenium/.idea/workspace.xml" afterDir="false" />
++    </list>
++    <option name="SHOW_DIALOG" value="false" />
++    <option name="HIGHLIGHT_CONFLICTS" value="true" />
++    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
++    <option name="LAST_RESOLUTION" value="IGNORE" />
++  </component>
++  <component name="Git.Settings">
++    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
++  </component>
++  <component name="ProjectId" id="21I4g73EgitFT0FYEB2soR06o48" />
++  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
++  <component name="ProjectViewState">
++    <option name="showLibraryContents" value="true" />
++  </component>
++  <component name="PropertiesComponent">
++    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
++    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
++  </component>
++  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
++  <component name="TaskManager">
++    <task active="true" id="Default" summary="Default task">
++      <changelist id="2205a9ba-eaef-4c4b-bc43-0961d39b48f4" name="Changes" comment="" />
++      <created>1637615377708</created>
++      <option name="number" value="Default" />
++      <option name="presentableId" value="Default" />
++      <updated>1637615377708</updated>
++    </task>
++    <servers />
++  </component>
++  <component name="Vcs.Log.Tabs.Properties">
++    <option name="TAB_STATES">
++      <map>
++        <entry key="MAIN">
++          <value>
++            <State />
++          </value>
++        </entry>
++      </map>
++    </option>
++  </component>
++</project>
+\ No newline at end of file
+Index: ../HelloLog4j/.idea/misc.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/../HelloLog4j/.idea/misc.xml b/../HelloLog4j/.idea/misc.xml
+new file mode 100644
+--- /dev/null	(date 1637615378428)
++++ b/../HelloLog4j/.idea/misc.xml	(date 1637615378428)
+@@ -0,0 +1,14 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<project version="4">
++  <component name="ExternalStorageConfigurationManager" enabled="true" />
++  <component name="MavenProjectsManager">
++    <option name="originalFiles">
++      <list>
++        <option value="$PROJECT_DIR$/pom.xml" />
++      </list>
++    </option>
++  </component>
++  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_8" default="true" project-jdk-name="corretto-1.8" project-jdk-type="JavaSDK">
++    <output url="file://$PROJECT_DIR$/out" />
++  </component>
++</project>
+\ No newline at end of file
+Index: src/test/java/services/AccountServicesTest.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/test/java/services/AccountServicesTest.java b/src/test/java/services/AccountServicesTest.java
+new file mode 100644
+--- /dev/null	(date 1638377655633)
++++ b/src/test/java/services/AccountServicesTest.java	(date 1638377655633)
+@@ -0,0 +1,129 @@
++package services;
++
++import dao.AccountsDAO;
++import models.Account;
++import org.junit.jupiter.api.Test;
++import org.mockito.Mockito;
++
++import java.util.ArrayList;
++import java.util.List;
++
++import static org.junit.jupiter.api.Assertions.*;
++
++class AccountServicesTest {
++
++    AccountsDAO accountDao = Mockito.mock(AccountsDAO.class);
++
++    AccountServices accountServices;
++
++    public AccountServicesTest(){this.accountServices = new AccountServices(accountDao);}
++
++    @Test
++    void createAccount() {
++        //arrange
++        Account account = new Account(1, 10, 23.3);
++
++        //act
++        accountServices.createAccount(account);
++
++        //assert
++        Mockito.verify(accountDao, Mockito.times(1)).createAccount(account);
++    }
++
++    @Test
++    void getAllAccounts() {
++        //arrange
++        List<Account> accountList = new ArrayList<>();
++        accountList.add(new Account(12, 10, 200d));
++        accountList.add(new Account(13, 10, 600d));
++        //accountList.add(new Account(3, 3, 200d));
++        accountList.add(new Account(14, 10, 232.21));
++        //accountList.add(new Account(5, 1, 70d));
++        //accountList.add(new Account(6, 1, 2230d));
++        List<Account> expectedValue = accountList;
++        Mockito.when(accountServices.getAllAccounts(10)).thenReturn(accountList);
++
++        //act
++        List<Account> actualResult = accountServices.getAllAccounts(10);
++
++        //assert
++        assertEquals(expectedValue,actualResult);
++    }
++
++    @Test
++    void getSpecificAccounts() {
++        //arrange
++        List<Account> accountList = new ArrayList<>();
++        accountList.add(new Account(12, 10, 200d));
++        //accountList.add(new Account(13, 10, 600d));
++        //accountList.add(new Account(3, 3, 200d));
++        accountList.add(new Account(14, 10, 232.21));
++        //accountList.add(new Account(5, 1, 70d));
++        //accountList.add(new Account(6, 1, 2230d));
++        List<Account> expectedValue = accountList;
++        Mockito.when(accountServices.getSpecificAccounts(10,500d,100d)).thenReturn(accountList);
++
++        //act
++        List<Account> actualResult = accountServices.getSpecificAccounts(10,500d,100d);
++
++        //assert
++        assertEquals(expectedValue,actualResult);
++    }
++
++    @Test
++    void getOneAccount() {
++        //arrange
++        /*
++        List<Account> accountList = new ArrayList<>();
++        accountList.add(new Account(14, 10, 232.21));
++        //accountList.add(new Account(12, 10, 200d));
++        //accountList.add(new Account(13, 10, 600d));
++        //accountList.add(new Account(3, 3, 200d));
++        //accountList.add(new Account(5, 1, 70d));
++        //accountList.add(new Account(6, 1, 2230d));
++        List<Account> expectedValue = accountList;
++        Mockito.when(accountServices.getOneAccount(10)).thenReturn();
++
++        //act
++        List<Account> actualResult = accountServices.getSpecificAccounts(10,500d,100d);
++
++        //assert
++        assertEquals(expectedValue,actualResult); */
++    }
++
++    @Test
++    void updateAccount() {//does not work
++        //arrange
++        //List<Account> accountList = new ArrayList<>();
++        //accountList.add(new Account(12, 10, 20d));
++        //accountList.add(new Account(13, 10, 600d));
++        //accountList.add(new Account(3, 3, 200d));
++        //accountList.add(new Account(14, 10, 232.21));
++        //accountList.add(new Account(5, 1, 70d));
++        //accountList.add(new Account(6, 1, 2230d));
++        Integer accountId = 12;
++
++        //act
++        //accountServices.updateAccount(accountId,20d,-1.3); //hits a null pointer exception because of the scope
++
++        //assert
++        //Mockito.verify(accountDao, Mockito.times(1)).updateAccount(12, 20d);
++    }
++
++    @Test
++    void deleteAccount() {
++        //arrange
++        Integer accountId = 12;
++
++        //act
++        accountServices.deleteAccount(accountId);
++
++        //assert
++        Mockito.verify(accountDao, Mockito.times(1)).deleteAccount(12);
++    }
++
++    @Test
++    void transferMoney() {
++        //same issue with verify, it is because of the getbal() method in transfer money
++    }
++}
+\ No newline at end of file
+Index: ../HelloLog4j/.idea/jarRepositories.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/../HelloLog4j/.idea/jarRepositories.xml b/../HelloLog4j/.idea/jarRepositories.xml
+new file mode 100644
+--- /dev/null	(date 1637615385417)
++++ b/../HelloLog4j/.idea/jarRepositories.xml	(date 1637615385417)
+@@ -0,0 +1,20 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<project version="4">
++  <component name="RemoteRepositoriesConfiguration">
++    <remote-repository>
++      <option name="id" value="central" />
++      <option name="name" value="Central Repository" />
++      <option name="url" value="https://repo.maven.apache.org/maven2" />
++    </remote-repository>
++    <remote-repository>
++      <option name="id" value="central" />
++      <option name="name" value="Maven Central repository" />
++      <option name="url" value="https://repo1.maven.org/maven2" />
++    </remote-repository>
++    <remote-repository>
++      <option name="id" value="jboss.community" />
++      <option name="name" value="JBoss Community repository" />
++      <option name="url" value="https://repository.jboss.org/nexus/content/repositories/public/" />
++    </remote-repository>
++  </component>
++</project>
+\ No newline at end of file
+Index: ../HelloLog4j/.idea/vcs.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/../HelloLog4j/.idea/vcs.xml b/../HelloLog4j/.idea/vcs.xml
+new file mode 100644
+--- /dev/null	(date 1637615385446)
++++ b/../HelloLog4j/.idea/vcs.xml	(date 1637615385446)
+@@ -0,0 +1,6 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<project version="4">
++  <component name="VcsDirectoryMappings">
++    <mapping directory="$PROJECT_DIR$/.." vcs="Git" />
++  </component>
++</project>
+\ No newline at end of file
+Index: ../HelloLog4j/.idea/runConfigurations.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/../HelloLog4j/.idea/runConfigurations.xml b/../HelloLog4j/.idea/runConfigurations.xml
+new file mode 100644
+--- /dev/null	(date 1637615378466)
++++ b/../HelloLog4j/.idea/runConfigurations.xml	(date 1637615378466)
+@@ -0,0 +1,10 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<project version="4">
++  <component name="RunConfigurationProducerService">
++    <option name="ignoredProducers">
++      <set>
++        <option value="com.android.tools.idea.compose.preview.runconfiguration.ComposePreviewRunConfigurationProducer" />
++      </set>
++    </option>
++  </component>
++</project>
+\ No newline at end of file
+Index: src/main/resources/log4j.properties
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>ISO-8859-1
+===================================================================
+diff --git a/src/main/resources/log4j.properties b/src/main/resources/log4j.properties
+new file mode 100644
+--- /dev/null	(date 1638337429490)
++++ b/src/main/resources/log4j.properties	(date 1638337429490)
+@@ -0,0 +1,16 @@
++log4j.rootLogger=DEBUG, file
++
++# Redirect log messages to console
++#log4j.appender.stdout=org.apache.log4j.ConsoleAppender
++#log4j.appender.stdout.Target=System.out
++#log4j.appender.stdout.layout=org.apache.log4j.PatternLayout
++#log4j.appender.stdout.layout.ConversionPattern=%d{yyyy-MM-dd HH:mm:ss} %-5p %c{1}:%L - %m%n
++
++# Redirect log messages to a log file, support file rolling.
++log4j.appender.file=org.apache.log4j.RollingFileAppender
++#Update your file location here
++log4j.appender.file.File=./log.log
++log4j.appender.file.MaxFileSize=5MB
++log4j.appender.file.MaxBackupIndex=10
++log4j.appender.file.layout=org.apache.log4j.PatternLayout
++log4j.appender.file.layout.ConversionPattern=%d{yyyy-MM-dd HH:mm:ss} %-5p %c{1}:%L - %m%n
+\ No newline at end of file
+Index: ../HelloLog4j/.idea/compiler.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/../HelloLog4j/.idea/compiler.xml b/../HelloLog4j/.idea/compiler.xml
+new file mode 100644
+--- /dev/null	(date 1637615385405)
++++ b/../HelloLog4j/.idea/compiler.xml	(date 1637615385405)
+@@ -0,0 +1,13 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<project version="4">
++  <component name="CompilerConfiguration">
++    <annotationProcessing>
++      <profile name="Maven default annotation processors profile" enabled="true">
++        <sourceOutputDir name="target/generated-sources/annotations" />
++        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
++        <outputRelativeToContentRoot value="true" />
++        <module name="HelloLog4j" />
++      </profile>
++    </annotationProcessing>
++  </component>
++</project>
+\ No newline at end of file
