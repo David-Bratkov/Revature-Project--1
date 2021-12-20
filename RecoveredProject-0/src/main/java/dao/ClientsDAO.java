@@ -48,6 +48,8 @@ public class ClientsDAO implements ClientsDAOInterface {
             log.error(e);
         }
 
+        log.info("Was successfull returing all clients");
+
         return clientList;
 
     }

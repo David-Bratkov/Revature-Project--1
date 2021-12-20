@@ -15,7 +15,7 @@ public class Main {
 
         WebDriver driver = new ChromeDriver(options);
 
-        driver.get("http://localhost:9000");
+        driver.get("http://localhost:8000");
         Thread.sleep(500);
 
         WebElement WebElem = driver.findElement(By.id("add1-input")); //changing focus to the addition input 1

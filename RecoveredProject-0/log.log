@@ -17,14 +17,3 @@
   Position: 27
 2021-12-01 18:15:09 ERROR AccountsDAO:157 - org.postgresql.util.PSQLException: ERROR: column "id" does not exist
   Position: 27
-2021-12-01 18:18:19 WARN  ClientController:210 - java.lang.NullPointerException
-2021-12-01 18:18:19 WARN  ClientController:224 - java.lang.NullPointerException
-2021-12-01 18:19:42 WARN  ClientController:210 - java.lang.NullPointerException
-2021-12-01 18:19:42 WARN  ClientController:224 - java.lang.NullPointerException
-2021-12-01 18:23:01 WARN  ClientController:225 - java.lang.NullPointerException
-2021-12-01 18:24:07 WARN  ClientController:225 - java.lang.NullPointerException
-2021-12-01 18:26:56 WARN  ClientController:225 - java.lang.NullPointerException n
-2021-12-01 18:29:57 WARN  ClientController:225 - java.lang.NullPointerException
-2021-12-01 18:33:49 WARN  AccountController:225 - java.lang.NullPointerException
-2021-12-01 18:33:59 WARN  AccountController:211 - java.lang.NullPointerException
-2021-12-01 18:34:43 WARN  AccountController:266 - java.lang.NullPointerException
